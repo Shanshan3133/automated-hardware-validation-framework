@@ -54,9 +54,33 @@ class ActiveLowGPIO:
         return bool(self.GPIO.input(self.pin))
 
 
+class RigolScope:
+    """Minimal SCPI waveform adapter for Rigol DS1000Z/DS2000-style scopes."""
+
+    def __init__(self, instrument, channel: int = 1):
+        self.instrument = instrument
+        self.channel = channel
+
+    def capture(self, sample_count: int, sample_rate_hz: int) -> list[float]:
+        if sample_count < 2 or sample_rate_hz <= 0:
+            raise ValueError("scope capture requires at least two samples and a positive sample rate")
+        inst = self.instrument
+        capture_window_s = sample_count / sample_rate_hz
+        inst.write(f":TIM:SCAL {capture_window_s / 12:.9g}")
+        inst.write(f":WAV:SOUR CHAN{self.channel}")
+        inst.write(":WAV:MODE NORM")
+        inst.write(":WAV:FORM ASC")
+        inst.write(f":WAV:POIN {sample_count}")
+        values = inst.query_ascii_values(":WAV:DATA?")
+        if len(values) < 2:
+            raise RuntimeError("Oscilloscope returned fewer than two waveform samples")
+        return [float(value) for value in values]
+
+
 class RealBench(Bench):
-    def __init__(self, supply, load, adc, fault_gpio):
-        self.supply, self.load, self.adc, self.fault_gpio = supply, load, adc, fault_gpio
+    def __init__(self, supply, load, adc, fault_gpio, scope):
+        self.supply, self.load, self.adc = supply, load, adc
+        self.fault_gpio, self.scope = fault_gpio, scope
 
     def set_input_voltage(self, volts: float) -> None:
         self.supply.write(f"VOLT {volts:.4f}")
@@ -82,7 +106,7 @@ class RealBench(Bench):
         return float(self.load.query("MEAS:CURR?"))
 
     def acquire_output(self, sample_count: int, sample_rate_hz: int) -> list[float]:
-        return self.adc.capture("vout", sample_count, sample_rate_hz)
+        return self.scope.capture(sample_count, sample_rate_hz)
 
     def fault_asserted(self) -> bool:
         return not bool(self.fault_gpio.read())  # DUT FLT is active-low
@@ -98,8 +122,10 @@ def build_real_bench(config_path: str | Path) -> RealBench:
     manager = pyvisa.ResourceManager()
     supply = manager.open_resource(cfg["supply_resource"])
     load = manager.open_resource(cfg["load_resource"])
+    scope = manager.open_resource(cfg["scope_resource"])
     supply.write("OUTP OFF")
     load.write("INPUT OFF")
     supply.write(f"CURR {current_limit:.4f}")
     supply.write(f"VOLT:PROT {float(cfg.get('supply_ovp_v', 22.0)):.4f}")
-    return RealBench(supply, load, MCP3008(cfg["adc"]), ActiveLowGPIO(int(cfg["fault_gpio_bcm"])))
+    return RealBench(supply, load, MCP3008(cfg["adc"]), ActiveLowGPIO(int(cfg["fault_gpio_bcm"])),
+                     RigolScope(scope, int(cfg.get("scope_channel", 1))))

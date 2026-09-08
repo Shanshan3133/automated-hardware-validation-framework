@@ -6,9 +6,9 @@
 
 1. 打开`protected_buck.kicad_pro`和PCB编辑器。
 2. 优先缩短U2、D2、L1、C8/C9组成的开关电流回路。
-3. 完成BOOT、VSENSE、UVLO、OVP、ILIM、DVDT、FLT、SHDN和IMON网络。
+3. 完成BOOT、VSENSE、UVLO、OVP、ILIM、DVDT、FLT_DAQ、SHDN、MODE和IMON_DAQ网络。
 4. R8/R9反馈采样点应接在输出电容正端，不要从电感焊盘直接取样。
-5. 完成VIN/VOUT ADC分压器和J3；确认J3任何引脚不超过树莓派3.3V范围。
+5. 完成VIN/VOUT ADC分压器和J3；保持TPS26600的RTN与系统GND分离，并确认J3任何引脚不超过树莓派3.3V范围。
 6. 给U1和U2裸露焊盘增加接地散热过孔，并确认板厂最小孔径。
 7. 增加四个M3安装孔并确认连接器方向。
 8. 重新填充铺铜并运行完整DRC；必须达到“违规0项、未连接0项”。

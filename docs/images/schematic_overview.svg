@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+  <title id="title">Protected 5 V buck regulator schematic overview</title>
+  <desc id="desc">TPS26600 input protection followed by TPS5431 buck regulation and isolated measurement interface.</desc>
+  <defs>
+    <style>
+      .bg{fill:#f8fafc}.panel{fill:#fff;stroke:#cbd5e1;stroke-width:2}.ic{fill:#e0e7ff;stroke:#4338ca;stroke-width:3}.io{fill:#ecfdf5;stroke:#047857;stroke-width:3}.wire{fill:none;stroke:#166534;stroke-width:4}.sig{fill:none;stroke:#2563eb;stroke-width:3}.return{fill:none;stroke:#334155;stroke-width:4}.danger{fill:#fff7ed;stroke:#c2410c;stroke-width:2}.title{font:700 30px system-ui;fill:#172033}.h{font:700 20px system-ui;fill:#172033}.t{font:15px system-ui;fill:#334155}.small{font:13px system-ui;fill:#475569}.net{font:700 13px ui-monospace,monospace;fill:#166534}.note{font:14px system-ui;fill:#9a3412}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#166534"/></marker>
+  </defs>
+  <rect class="bg" width="1400" height="760"/>
+  <text class="title" x="55" y="55">Protected 5 V Buck Regulator — Rev A Design Overview</text>
+  <text class="t" x="55" y="84">8–18 V input · 5.0 V / 1 A validation target · UVLO 7.4 V · OVP 19.0 V · ILIM 1.5 A</text>
+
+  <rect class="io" x="55" y="160" width="140" height="110" rx="12"/>
+  <text class="h" x="125" y="194" text-anchor="middle">J1 INPUT</text><text class="t" x="125" y="225" text-anchor="middle">VIN+</text><text class="t" x="125" y="250" text-anchor="middle">RTN−</text>
+  <rect class="panel" x="235" y="125" width="190" height="180" rx="12"/>
+  <text class="h" x="330" y="160" text-anchor="middle">Input network</text><text class="t" x="255" y="192">D1  SMBJ24A TVS</text><text class="t" x="255" y="220">C1/C2  10 µF / 50 V</text><text class="t" x="255" y="248">Referenced to RTN</text><text class="small" x="255" y="278">Surge + local decoupling</text>
+  <rect class="ic" x="490" y="125" width="250" height="250" rx="14"/>
+  <text class="h" x="615" y="165" text-anchor="middle">U1 · TPS26600PWP</text><text class="t" x="515" y="205">Reverse-polarity protection</text><text class="t" x="515" y="233">UVLO / OVP cutoff</text><text class="t" x="515" y="261">1.5 A current limit</text><text class="t" x="515" y="289">Controlled output ramp</text><text class="t" x="515" y="317">FLT + IMON telemetry</text><text class="small" x="515" y="348">RTN is not shorted to GND</text>
+  <rect class="ic" x="825" y="125" width="250" height="250" rx="14"/>
+  <text class="h" x="950" y="165" text-anchor="middle">U2 · TPS5431DDA</text><text class="t" x="850" y="205">500 kHz asynchronous buck</text><text class="t" x="850" y="233">CBOOT 10 nF: BOOT ↔ PH</text><text class="t" x="850" y="261">D2 B340A catch diode</text><text class="t" x="850" y="289">L1 15 µH / ≥4 A</text><text class="t" x="850" y="317">C8/C9 47 µF / 10 V</text><text class="small" x="850" y="348">30.9 kΩ / 10 kΩ feedback</text>
+  <rect class="io" x="1150" y="160" width="155" height="110" rx="12"/>
+  <text class="h" x="1228" y="194" text-anchor="middle">J2 OUTPUT</text><text class="t" x="1228" y="225" text-anchor="middle">+5 V</text><text class="t" x="1228" y="250" text-anchor="middle">SYSTEM_GND</text>
+
+  <path class="wire" marker-end="url(#arrow)" d="M195 205H235M425 205H490M740 205H825M1075 205H1150"/><text class="net" x="430" y="194">VIN</text><text class="net" x="747" y="194">PROTECTED_IN</text><text class="net" x="1083" y="194">+5V</text>
+  <path class="return" d="M195 250H220V560H490"/><text class="small" x="240" y="550">RTN domain</text>
+  <path class="return" d="M740 345V610H1305V250"/><text class="small" x="1080" y="600">SYSTEM_GND domain</text>
+
+  <rect class="panel" x="285" y="430" width="455" height="135" rx="12"/>
+  <text class="h" x="310" y="465">Protection programming — referenced to RTN</text><text class="t" x="310" y="498">UVLO: 52.3 kΩ / 10 kΩ · OVP: 150 kΩ / 10 kΩ</text><text class="t" x="310" y="527">ILIM: 8.06 kΩ · dV/dt: 22 nF · MODE: explicit selection</text>
+  <path class="sig" d="M490 330H460V430M615 375V430"/>
+
+  <rect class="panel" x="825" y="430" width="480" height="135" rx="12"/>
+  <text class="h" x="850" y="465">J3 DAQ / fixture interface</text><text class="t" x="850" y="498">VIN_SENSE · VOUT_SENSE · FLT · SHDN · IMON · GND</text><text class="t" x="850" y="527">Divider, RC filtering, and 3.3 V input protection shown explicitly</text>
+  <path class="sig" d="M710 330H790V475H825M1075 330H1110V430"/>
+
+  <rect class="danger" x="55" y="655" width="1250" height="55" rx="10"/><text class="note" x="680" y="688" text-anchor="middle">Engineering design overview — final fabrication requires zero ERC, zero DRC, zero unconnected items, thermal review, and peer review.</text>
+</svg>

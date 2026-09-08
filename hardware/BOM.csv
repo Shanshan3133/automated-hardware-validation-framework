@@ -5,17 +5,24 @@ D1,1,SMBJ24A,Input transient suppressor,Diode_SMD:D_SMB
 D2,1,B340A,3 A 40 V Schottky catch diode,Diode_SMD:D_SMA
 L1,1,15uH 4A,Shielded power inductor,Inductor_SMD:L_10.4x10.4_H4.8
 C1 C2,2,10uF 50V,Input ceramic capacitor,Capacitor_SMD:C_1210_3225Metric
-C3 C4,2,47uF 10V,Output ceramic capacitor,Capacitor_SMD:C_1210_3225Metric
-R_UV_TOP,1,52.3k 1%,UVLO divider upper,Resistor_SMD:R_0603_1608Metric
-R_UV_BOT,1,10k 1%,UVLO divider lower,Resistor_SMD:R_0603_1608Metric
-R_OV_TOP,1,150k 1%,OVP divider upper,Resistor_SMD:R_0603_1608Metric
-R_OV_BOT,1,10k 1%,OVP divider lower,Resistor_SMD:R_0603_1608Metric
-R_ILIM,1,8.06k 1%,Approximately 1.5 A eFuse limit,Resistor_SMD:R_0603_1608Metric
-R_FB_TOP,1,30.9k 1%,5 V feedback upper,Resistor_SMD:R_0603_1608Metric
-R_FB_BOT,1,10k 1%,5 V feedback lower,Resistor_SMD:R_0603_1608Metric
+C5,1,22nF,eFuse output slew control to RTN,Capacitor_SMD:C_0603_1608Metric
+C6,1,10uF 50V,Protected-input ceramic capacitor,Capacitor_SMD:C_1210_3225Metric
+C7,1,10nF,TPS5431 BOOT-to-PH bootstrap capacitor,Capacitor_SMD:C_0603_1608Metric
+C8 C9,2,47uF 10V,Output ceramic capacitor,Capacitor_SMD:C_1210_3225Metric
+R1,1,52.3k 1%,UVLO divider upper,Resistor_SMD:R_0603_1608Metric
+R2,1,10k 1%,UVLO divider lower to RTN,Resistor_SMD:R_0603_1608Metric
+R3,1,150k 1%,OVP divider upper,Resistor_SMD:R_0603_1608Metric
+R4,1,10k 1%,OVP divider lower to RTN,Resistor_SMD:R_0603_1608Metric
+R5,1,8.06k 1%,Approximately 1.5 A eFuse limit,Resistor_SMD:R_0603_1608Metric
+R6,1,1k,FLT series protection; fixture provides 3.3 V pull-up,Resistor_SMD:R_0603_1608Metric
+R7,1,100k,SHDN fail-safe pull-up; drive with open drain,Resistor_SMD:R_0603_1608Metric
+R8,1,30.9k 1%,5 V feedback upper,Resistor_SMD:R_0603_1608Metric
+R9,1,10k 1%,5 V feedback lower,Resistor_SMD:R_0603_1608Metric
+R14,1,0R,MODE to RTN for current-limit auto-retry,Resistor_SMD:R_0603_1608Metric
+R15,1,16.9k 1%,IMON programming resistor to RTN,Resistor_SMD:R_0603_1608Metric
+R16,1,100k,IMON ADC fault-current limiting series resistor,Resistor_SMD:R_0603_1608Metric
 J1 J2,2,2-pin 5.08mm,Power terminal block,TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal
-J3,1,1x06,DAQ header: GND VIN_SENSE VOUT_SENSE FLT EN TP,Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical
+J3,1,1x06,DAQ header: GND VIN_SENSE VOUT_SENSE FLT_DAQ SHDN IMON_DAQ,Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical
 TP1 TP2 TP3 TP4,4,Test point,VIN PROTECTED_IN VOUT GND,TestPoint:TestPoint_Plated_Hole_D2.0mm
-R_VIN_TOP R_VIN_BOT,2,56k / 10k 1%,VIN ADC divider,Resistor_SMD:R_0603_1608Metric
-R_VOUT_TOP R_VOUT_BOT,2,10k / 15k 1%,VOUT ADC divider,Resistor_SMD:R_0603_1608Metric
-C_DVDT,1,22nF,eFuse output slew control,Capacitor_SMD:C_0603_1608Metric
+R10 R11,2,56k / 10k 1%,VIN ADC divider,Resistor_SMD:R_0603_1608Metric
+R12 R13,2,10k / 15k 1%,VOUT ADC divider,Resistor_SMD:R_0603_1608Metric

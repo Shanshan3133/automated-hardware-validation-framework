@@ -5,7 +5,7 @@ from pathlib import Path
 
 from validation.models import Status
 from validation.report import write_results
-from validation.real_bench import build_real_bench
+from validation.real_bench import RigolScope, build_real_bench
 from validation.simulator import SimulatedBench
 from validation.test_cases import all_tests
 
@@ -33,7 +33,9 @@ class FrameworkTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             report = write_results(Path(folder), results, {"dut": "unit-test"})
             self.assertTrue(report.exists())
-            self.assertIn("Hardware Validation Report", report.read_text(encoding="utf-8"))
+            report_text = report.read_text(encoding="utf-8")
+            self.assertIn("Hardware Validation Report", report_text)
+            self.assertIn("<svg", report_text)
             self.assertTrue((Path(folder) / "results.json").exists())
 
     def test_real_bench_rejects_unsafe_current_limit_before_hardware_access(self):
@@ -42,6 +44,21 @@ class FrameworkTests(unittest.TestCase):
             config.write_text('{"supply_current_limit_a": 2.5}', encoding="utf-8")
             with self.assertRaisesRegex(ValueError, "within"):
                 build_real_bench(config)
+
+    def test_scope_adapter_returns_numeric_waveform(self):
+        class FakeScope:
+            def __init__(self):
+                self.commands = []
+            def write(self, command):
+                self.commands.append(command)
+            def query_ascii_values(self, command):
+                self.commands.append(command)
+                return [4.99, 5.01, 5.00]
+        fake = FakeScope()
+        samples = RigolScope(fake).capture(3, 10_000_000)
+        self.assertEqual([4.99, 5.01, 5.00], samples)
+        self.assertTrue(any(command.startswith(":TIM:SCAL") for command in fake.commands))
+        self.assertIn(":WAV:DATA?", fake.commands)
 
 
 if __name__ == "__main__":

@@ -10,6 +10,5 @@
   "current_trip_a": [1.35, 1.65],
   "settle_s": 0.01,
   "ripple_samples": 2000,
-  "ripple_sample_rate_hz": 10000
+  "ripple_sample_rate_hz": 10000000
 }
-

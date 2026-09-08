@@ -24,8 +24,9 @@ def vec(x: float, y: float):
 board = pcbnew.BOARD()
 board.GetDesignSettings().SetAuxOrigin(vec(20, 40))
 nets: dict[str, pcbnew.NETINFO_ITEM] = {}
-for name in ["VIN", "GND", "PROTECTED_IN", "+5V", "SW", "BOOT", "UVLO", "OVP", "SHDN",
-             "ILIM", "DVDT", "FLT", "VSENSE", "VIN_SENSE", "VOUT_SENSE", "IMON"]:
+for name in ["VIN", "RTN", "GND", "PROTECTED_IN", "+5V", "SW", "BOOT", "UVLO", "OVP", "SHDN",
+             "MODE", "ILIM", "DVDT", "FLT", "FLT_DAQ", "VSENSE", "VIN_SENSE", "VOUT_SENSE",
+             "IMON", "IMON_DAQ"]:
     net = pcbnew.NETINFO_ITEM(board, name)
     board.Add(net)
     nets[name] = net
@@ -65,22 +66,26 @@ def capacitor(ref, value, x, y, n1, n2, size="C_0603_1608Metric", rotation=0):
 
 
 J1 = add_fp("TerminalBlock_Phoenix", "TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal", "J1", "VIN 8-18V", 27, 65, 90)
-assign(J1, {"1": "VIN", "2": "GND"})
-D1 = add_fp("Diode_SMD", "D_SMB", "D1", "SMBJ24A", 36, 78, 90); assign(D1, {"1": "GND", "2": "VIN"})
-C1 = capacitor("C1", "10uF 50V", 42, 75, "VIN", "GND", "C_1210_3225Metric", 90)
-C2 = capacitor("C2", "10uF 50V", 46, 75, "VIN", "GND", "C_1210_3225Metric", 90)
+assign(J1, {"1": "VIN", "2": "RTN"})
+D1 = add_fp("Diode_SMD", "D_SMB", "D1", "SMBJ24A", 36, 78, 90); assign(D1, {"1": "RTN", "2": "VIN"})
+C1 = capacitor("C1", "10uF 50V", 42, 75, "VIN", "RTN", "C_1210_3225Metric", 90)
+C2 = capacitor("C2", "10uF 50V", 46, 75, "VIN", "RTN", "C_1210_3225Metric", 90)
 C2.Reference().SetVisible(False)
 U1 = add_fp("Package_SO", "HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3.4x5mm_Mask2.66x2.46mm", "U1", "TPS26600PWP", 56, 65)
-assign(U1, {"1":"VIN", "2":"VIN", "3":"UVLO", "5":"OVP", "6":"GND", "7":"SHDN", "8":"GND", "9":"GND",
-            "10":"IMON", "11":"ILIM", "12":"DVDT", "14":"FLT", "15":"PROTECTED_IN", "16":"PROTECTED_IN", "17":"GND"})
+assign(U1, {"1":"VIN", "2":"VIN", "3":"UVLO", "5":"OVP", "6":"MODE", "7":"SHDN", "8":"RTN", "9":"GND",
+            "10":"IMON", "11":"ILIM", "12":"DVDT", "14":"FLT", "15":"PROTECTED_IN", "16":"PROTECTED_IN", "17":"RTN"})
 R1 = resistor("R1", "52.3k 1%", 47, 88, "VIN", "UVLO")
-R2 = resistor("R2", "10k 1%", 52, 88, "UVLO", "GND")
+R2 = resistor("R2", "10k 1%", 52, 88, "UVLO", "RTN")
 R3 = resistor("R3", "150k 1%", 47, 92, "VIN", "OVP")
-R4 = resistor("R4", "10k 1%", 52, 92, "OVP", "GND")
-R5 = resistor("R5", "8.06k 1%", 63, 87, "ILIM", "GND")
-C5 = capacitor("C5", "22nF", 67, 87, "DVDT", "GND")
-R6 = resistor("R6", "10k", 68, 73, "PROTECTED_IN", "FLT", 90)
+R4 = resistor("R4", "10k 1%", 52, 92, "OVP", "RTN")
+R5 = resistor("R5", "8.06k 1%", 63, 87, "ILIM", "RTN")
+C5 = capacitor("C5", "22nF", 67, 87, "DVDT", "RTN")
+# FLT is open-drain. R6 is only series protection; the fixture supplies a 3.3 V pull-up.
+R6 = resistor("R6", "1k", 68, 73, "FLT", "FLT_DAQ", 90)
 R7 = resistor("R7", "100k", 72, 73, "PROTECTED_IN", "SHDN", 90)
+R14 = resistor("R14", "0R", 59, 91, "MODE", "RTN")
+R15 = resistor("R15", "16.9k 1%", 63, 91, "IMON", "RTN")
+R16 = resistor("R16", "100k", 69, 91, "IMON", "IMON_DAQ")
 C6 = capacitor("C6", "10uF 50V", 76, 77, "PROTECTED_IN", "GND", "C_1210_3225Metric", 90)
 U2 = add_fp("Package_SO", "TI_SO-PowerPAD-8", "U2", "TPS5431DDA", 86, 65)
 assign(U2, {"1":"BOOT", "4":"VSENSE", "5":"PROTECTED_IN", "6":"GND", "7":"PROTECTED_IN", "8":"SW", "9":"GND"})
@@ -100,7 +105,7 @@ R11 = resistor("R11", "10k 1%", 111, 95, "VIN_SENSE", "GND")
 R12 = resistor("R12", "10k 1%", 105, 100, "+5V", "VOUT_SENSE")
 R13 = resistor("R13", "15k 1%", 111, 100, "VOUT_SENSE", "GND")
 J3 = add_fp("Connector_PinHeader_2.54mm", "PinHeader_1x06_P2.54mm_Vertical", "J3", "DAQ", 125, 96, 90)
-assign(J3, {"1":"GND", "2":"VIN_SENSE", "3":"VOUT_SENSE", "4":"FLT", "5":"SHDN", "6":"IMON"})
+assign(J3, {"1":"GND", "2":"VIN_SENSE", "3":"VOUT_SENSE", "4":"FLT_DAQ", "5":"SHDN", "6":"IMON_DAQ"})
 
 for ref, x, y, net in [("TP1",35,47,"VIN"), ("TP2",70,47,"PROTECTED_IN"), ("TP3",113,47,"+5V"), ("TP4",125,47,"GND")]:
     tp = add_fp("TestPoint", "TestPoint_Plated_Hole_D2.0mm", ref, net, x, y)

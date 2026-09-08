@@ -54,11 +54,10 @@ class SimulatedBench(Bench):
     def acquire_output(self, sample_count: int, sample_rate_hz: int) -> list[float]:
         center = self.measure_output_voltage()
         amplitude = 0.014 if self.fault != "high-ripple" else 0.045
-        switching_alias_hz = 2300.0
-        return [center + amplitude * math.sin(2 * math.pi * switching_alias_hz * i / sample_rate_hz)
+        switching_hz = 500_000.0
+        return [center + amplitude * math.sin(2 * math.pi * switching_hz * i / sample_rate_hz)
                 + self.rng.gauss(0, 0.001) for i in range(sample_count)]
 
     def fault_asserted(self) -> bool:
         return self.enabled and (self.vin_set < self.uvlo or self.vin_set >= self.ovp or
                                  self.load_set >= self.ilim)
-
