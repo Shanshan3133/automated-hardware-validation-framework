@@ -1,0 +1,342 @@
+EESchema Schematic File Version 4
+LIBS:power
+EELAYER 29 0
+EELAYER END
+$Descr A4 11693 8268
+Sheet 1 1
+Title "Protected 5V Buck Regulator"
+Date "2026-09-08"
+Rev "A"
+Comp "Hardware Validation Portfolio"
+Comment1 "TPS26600PWP eFuse + TPS5431DDA buck"
+$EndDescr
+$Comp
+L Connector_Generic:Conn_01x02 J1
+U 1 1 1
+P 1050 2500
+F 0 "J1" H 968 2717 50 0000 C CNN
+F 1 "VIN_8-18V" H 968 2626 50 0000 C CNN
+F 2 "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal" H 1050 2500 50 0001 C CNN
+	1    1050 2500
+	-1 0 0 -1
+$EndComp
+$Comp
+L Device:D_TVS D1
+U 1 1 2
+P 1600 2850
+F 0 "D1" V 1554 2930 50 0000 L CNN
+F 1 "SMBJ24A" V 1645 2930 50 0000 L CNN
+F 2 "Diode_SMD:D_SMB" H 1600 2850 50 0001 C CNN
+	1    1600 2850
+	0 1 1 0
+$EndComp
+$Comp
+L Device:C C1
+U 1 1 3
+P 1950 2850
+F 0 "C1" H 2065 2896 50 0000 L CNN
+F 1 "10uF 50V" H 2065 2805 50 0000 L CNN
+F 2 "Capacitor_SMD:C_1210_3225Metric" H 1988 2700 50 0001 C CNN
+	1    1950 2850
+	1 0 0 -1
+$EndComp
+$Comp
+L Power_Management:TPS26600PWP U1
+U 1 1 4
+P 3500 3000
+F 0 "U1" H 3500 3767 50 0000 C CNN
+F 1 "TPS26600PWP" H 3500 3676 50 0000 C CNN
+F 2 "Package_SO:HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3.4x5mm_Mask2.66x2.46mm_ThermalVias" H 3500 3000 50 0001 C CNN
+	1    3500 3000
+	1 0 0 -1
+$EndComp
+$Comp
+L Regulator_Switching:TPS5431DDA U2
+U 1 1 5
+P 6500 2800
+F 0 "U2" H 6500 3367 50 0000 C CNN
+F 1 "TPS5431DDA" H 6500 3276 50 0000 C CNN
+F 2 "Package_SO:TI_SO-PowerPAD-8_ThermalVias" H 6500 2800 50 0001 C CNN
+	1    6500 2800
+	1 0 0 -1
+$EndComp
+$Comp
+L Device:L L1
+U 1 1 6
+P 7600 2800
+F 0 "L1" V 7790 2800 50 0000 C CNN
+F 1 "15uH 4A" V 7699 2800 50 0000 C CNN
+F 2 "Inductor_SMD:L_10.4x10.4_H4.8" H 7600 2800 50 0001 C CNN
+	1    7600 2800
+	0 -1 -1 0
+$EndComp
+$Comp
+L Device:D_Schottky D2
+U 1 1 7
+P 7200 3300
+F 0 "D2" V 7154 3380 50 0000 L CNN
+F 1 "B340A" V 7245 3380 50 0000 L CNN
+F 2 "Diode_SMD:D_SMA" H 7200 3300 50 0001 C CNN
+	1    7200 3300
+	0 1 1 0
+$EndComp
+$Comp
+L Device:C C8
+U 1 1 8
+P 8050 3300
+F 0 "C8" H 8165 3346 50 0000 L CNN
+F 1 "2x47uF 10V" H 8165 3255 50 0000 L CNN
+F 2 "Capacitor_SMD:C_1210_3225Metric" H 8088 3150 50 0001 C CNN
+	1    8050 3300
+	1 0 0 -1
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x02 J2
+U 1 1 9
+P 9100 2800
+F 0 "J2" H 9180 2792 50 0000 L CNN
+F 1 "5V_OUT" H 9180 2701 50 0000 L CNN
+F 2 "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal" H 9100 2800 50 0001 C CNN
+	1    9100 2800
+	1 0 0 -1
+$EndComp
+$Comp
+L Device:R R1
+U 1 1 10
+P 2350 3900
+F 0 "R1" H 2420 3946 50 0000 L CNN
+F 1 "52.3k 1%" H 2420 3855 50 0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 2280 3900 50 0001 C CNN
+	1    2350 3900
+	1 0 0 -1
+$EndComp
+$Comp
+L Device:R R2
+U 1 1 11
+P 2350 4400
+F 0 "R2" H 2420 4446 50 0000 L CNN
+F 1 "10k 1%" H 2420 4355 50 0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 2280 4400 50 0001 C CNN
+	1    2350 4400
+	1 0 0 -1
+$EndComp
+$Comp
+L Device:R R3
+U 1 1 12
+P 3300 4300
+F 0 "R3" H 3370 4346 50 0000 L CNN
+F 1 "150k 1%" H 3370 4255 50 0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 3230 4300 50 0001 C CNN
+	1    3300 4300
+	1 0 0 -1
+$EndComp
+$Comp
+L Device:R R4
+U 1 1 13
+P 3300 4800
+F 0 "R4" H 3370 4846 50 0000 L CNN
+F 1 "10k 1%" H 3370 4755 50 0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 3230 4800 50 0001 C CNN
+	1    3300 4800
+	1 0 0 -1
+$EndComp
+$Comp
+L Device:R R5
+U 1 1 14
+P 4300 3900
+F 0 "R5" H 4370 3946 50 0000 L CNN
+F 1 "8.06k 1%" H 4370 3855 50 0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 4230 3900 50 0001 C CNN
+	1    4300 3900
+	1 0 0 -1
+$EndComp
+$Comp
+L Device:C C5
+U 1 1 15
+P 5000 3900
+F 0 "C5" H 5115 3946 50 0000 L CNN
+F 1 "22nF dVdT" H 5115 3855 50 0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 5038 3750 50 0001 C CNN
+	1    5000 3900
+	1 0 0 -1
+$EndComp
+$Comp
+L Device:R R8
+U 1 1 16
+P 8050 4000
+F 0 "R8" H 8120 4046 50 0000 L CNN
+F 1 "30.9k 1%" H 8120 3955 50 0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 7980 4000 50 0001 C CNN
+	1    8050 4000
+	1 0 0 -1
+$EndComp
+$Comp
+L Device:R R9
+U 1 1 17
+P 8050 4500
+F 0 "R9" H 8120 4546 50 0000 L CNN
+F 1 "10k 1%" H 8120 4455 50 0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 7980 4500 50 0001 C CNN
+	1    8050 4500
+	1 0 0 -1
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x06 J3
+U 1 1 18
+P 9400 5000
+F 0 "J3" H 9480 4992 50 0000 L CNN
+F 1 "DAQ" H 9480 4901 50 0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical" H 9400 5000 50 0001 C CNN
+	1    9400 5000
+	1 0 0 -1
+$EndComp
+Wire Wire Line
+	1250 2500 3000 2500
+Wire Wire Line
+	1600 2500 1600 2700
+Wire Wire Line
+	1950 2500 1950 2700
+Wire Wire Line
+	1250 2600 1250 5000
+Wire Wire Line
+	1250 5000 9200 5000
+Wire Wire Line
+	1600 3000 1600 5000
+Wire Wire Line
+	1950 3000 1950 5000
+Wire Wire Line
+	3400 3700 3400 5000
+Wire Wire Line
+	3600 3700 3600 5000
+Wire Wire Line
+	4000 2500 6000 2500
+Wire Wire Line
+	6000 2500 6000 2600
+Wire Wire Line
+	6000 3000 6000 2500
+Wire Wire Line
+	6400 3200 6400 5000
+Wire Wire Line
+	6500 3200 6500 5000
+Wire Wire Line
+	7000 2800 7450 2800
+Wire Wire Line
+	7200 2800 7200 3150
+Wire Wire Line
+	7200 3450 7200 5000
+Wire Wire Line
+	7750 2800 8900 2800
+Wire Wire Line
+	8050 2800 8050 3150
+Wire Wire Line
+	8050 3450 8050 5000
+Wire Wire Line
+	8900 2900 8900 5000
+Wire Wire Line
+	2350 3750 2350 2500
+Wire Wire Line
+	2350 4050 2350 4250
+Wire Wire Line
+	2350 4150 3000 4150
+Wire Wire Line
+	3000 4150 3000 2800
+Wire Wire Line
+	2350 4550 2350 5000
+Wire Wire Line
+	3300 4150 3300 2500
+Wire Wire Line
+	3300 4450 3300 4650
+Wire Wire Line
+	3300 4550 3000 4550
+Wire Wire Line
+	3000 4550 3000 3100
+Wire Wire Line
+	3300 4950 3300 5000
+Wire Wire Line
+	4300 3750 4300 3400
+Wire Wire Line
+	4300 3400 4000 3400
+Wire Wire Line
+	4300 4050 4300 5000
+Wire Wire Line
+	5000 3750 5000 3500
+Wire Wire Line
+	5000 3500 4000 3500
+Wire Wire Line
+	5000 4050 5000 5000
+Wire Wire Line
+	8050 3850 8050 2800
+Wire Wire Line
+	8050 4150 8050 4350
+Wire Wire Line
+	8050 4250 7350 4250
+Wire Wire Line
+	7350 4250 7350 3000
+Wire Wire Line
+	7350 3000 7000 3000
+Wire Wire Line
+	8050 4650 8050 5000
+Wire Wire Line
+	9200 5100 8700 5100
+Wire Wire Line
+	8700 5100 8700 2500
+Wire Wire Line
+	9200 5200 8500 5200
+Wire Wire Line
+	8500 5200 8500 2800
+Wire Wire Line
+	9200 5300 7800 5300
+Wire Wire Line
+	7800 5300 7800 3000
+Wire Wire Line
+	7800 3000 4000 3000
+Wire Wire Line
+	9200 5400 7600 5400
+Wire Wire Line
+	7600 5400 7600 3500
+Wire Wire Line
+	7600 3500 3000 3500
+Wire Wire Line
+	9200 5500 7400 5500
+Wire Wire Line
+	7400 5500 7400 3100
+Wire Wire Line
+	7400 3100 4000 3100
+Connection ~ 1600 2500
+Connection ~ 1950 2500
+Connection ~ 6000 2500
+Connection ~ 7200 2800
+Connection ~ 8050 2800
+Connection ~ 2350 4150
+Connection ~ 3300 4550
+Connection ~ 8050 4250
+$Comp
+L power:GND #PWR01
+U 1 1 19
+P 6000 5000
+F 0 "#PWR01" H 6000 4750 50 0001 C CNN
+F 1 "GND" H 6005 4827 50 0000 C CNN
+	1    6000 5000
+	1 0 0 -1
+$EndComp
+Text Label 1450 2500 0 50 ~ 0
+VIN
+Text Label 4550 2500 0 50 ~ 0
+PROTECTED_IN
+Text Label 7250 2800 0 50 ~ 0
+SW
+Text Label 8400 2800 0 50 ~ 0
++5V
+Text Label 2450 4150 0 50 ~ 0
+UVLO
+Text Label 3050 4550 0 50 ~ 0
+OVP
+Text Label 7450 4250 0 50 ~ 0
+VSENSE
+Text Notes 900 900 0 120 ~ 24
+PROTECTED 5V BUCK REGULATOR - REV A
+Text Notes 900 1200 0 60 ~ 0
+Setpoints: UVLO 7.4V nominal; OVP 19.0V nominal; ILIM 1.5A; VOUT 4.99V nominal
+Text Notes 900 1500 0 60 ~ 12
+Engineering prototype: verify ERC/DRC and datasheet details before fabrication.
+$EndSCHEMATC

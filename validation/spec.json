@@ -1,0 +1,15 @@
+{
+  "dut_name": "PWR-5V Protected Buck Rev A",
+  "nominal_output_v": 5.0,
+  "output_tolerance_pct": 3.0,
+  "operating_input_v": [8.0, 18.0],
+  "rated_load_a": 1.0,
+  "ripple_limit_vpp": 0.050,
+  "uvlo_rising_v": [7.1, 7.9],
+  "ovp_rising_v": [18.4, 19.6],
+  "current_trip_a": [1.35, 1.65],
+  "settle_s": 0.01,
+  "ripple_samples": 2000,
+  "ripple_sample_rate_hz": 10000
+}
+

@@ -1,0 +1,19 @@
+{
+  "supply_resource": "USB0::0x0000::0x0000::SERIAL::INSTR",
+  "load_resource": "USB0::0x0000::0x0000::SERIAL::INSTR",
+  "supply_current_limit_a": 2.0,
+  "supply_ovp_v": 22.0,
+  "adc": {
+    "type": "mcp3008",
+    "spi_bus": 0,
+    "spi_device": 0,
+    "vref_v": 3.300,
+    "spi_hz": 1000000,
+    "channels": {
+      "vout": {"channel": 0, "divider_ratio": 2.5, "offset_v": 0.0},
+      "vin": {"channel": 1, "divider_ratio": 6.6, "offset_v": 0.0}
+    }
+  },
+  "fault_gpio_bcm": 17,
+  "emergency_off_gpio_bcm": 27
+}

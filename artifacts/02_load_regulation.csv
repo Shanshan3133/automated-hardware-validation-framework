@@ -1,0 +1,12 @@
+test,stimulus,stimulus_unit,value,unit,note
+load_regulation,0.0,A,5.010277989990643,V,
+load_regulation,0.1,A,5.005700906212032,V,
+load_regulation,0.2,A,5.007682876453147,V,
+load_regulation,0.3,A,5.005359577268842,V,
+load_regulation,0.4,A,5.003548227057243,V,
+load_regulation,0.5,A,4.998462953172226,V,
+load_regulation,0.6,A,4.9965841678240865,V,
+load_regulation,0.7,A,4.996065576982789,V,
+load_regulation,0.8,A,4.9948977160864,V,
+load_regulation,0.9,A,4.994258168987748,V,
+load_regulation,1.0,A,4.991931132404231,V,

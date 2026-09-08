@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+bench.json
+artifacts-real/
+artifacts-failing/
+.history/
+*.lck
+*.kicad_prl
+erc-report.txt
+drc-report.txt

@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hardware-validation-framework"
+version = "0.1.0"
+description = "Automated validation bench for a protected buck regulator"
+requires-python = ">=3.10"
+
+[project.optional-dependencies]
+raspberry-pi = ["pyvisa>=1.14", "pyvisa-py>=0.7", "spidev>=3.6", "RPi.GPIO>=0.7"]
+
+[project.scripts]
+hwvalidate = "validation.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["validation*"]

@@ -1,0 +1,13 @@
+<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width'>
+<title>Hardware Validation Report</title><style>
+:root{--ink:#172033;--muted:#64748b;--pass:#087443;--fail:#b42318;--paper:#fff;--bg:#eef2f7}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,sans-serif}
+main{max-width:1050px;margin:36px auto;padding:0 20px}header,.card{background:var(--paper);border-radius:14px;padding:26px;box-shadow:0 4px 18px #17203312;margin-bottom:18px}
+h1{margin:0 0 6px;font-size:28px}.sub{color:var(--muted)}.score{display:flex;gap:20px;align-items:baseline;margin-top:20px}.score strong{font-size:42px}.pass{color:var(--pass);font-weight:750}.fail,.error{color:var(--fail);font-weight:750}
+table{width:100%;border-collapse:collapse}th,td{padding:13px 10px;border-bottom:1px solid #e5eaf0;text-align:left}th{font-size:12px;text-transform:uppercase;color:var(--muted)}
+dl{display:grid;grid-template-columns:max-content 1fr;gap:6px 18px}dt{font-weight:700}dd{margin:0;color:var(--muted)}footer{color:var(--muted);font-size:12px;text-align:center;padding:12px}
+</style></head><body><main><header><h1>Hardware Validation Report</h1><div class='sub'>PWR-5V Protected Buck Rev A</div>
+<div class='score'><strong class='pass'>PASS</strong><span>6/6 tests passed</span></div></header>
+<section class='card'><table><thead><tr><th>Test</th><th>Status</th><th>Result</th><th>Time</th></tr></thead><tbody><tr><td>Line regulation</td><td><span class='pass'>PASS</span></td><td>VOUT range 4.995–5.011 V</td><td>0.000s</td></tr><tr><td>Load regulation</td><td><span class='pass'>PASS</span></td><td>VOUT range 4.992–5.010 V</td><td>0.000s</td></tr><tr><td>Output ripple</td><td><span class='pass'>PASS</span></td><td>Ripple 30.1 mVpp; mean 4.993 V</td><td>0.004s</td></tr><tr><td>UVLO rising</td><td><span class='pass'>PASS</span></td><td>Turn-on detected at 7.50 V</td><td>0.000s</td></tr><tr><td>OVP rising</td><td><span class='pass'>PASS</span></td><td>Trip detected at 19.05 V</td><td>0.000s</td></tr><tr><td>Overcurrent trip</td><td><span class='pass'>PASS</span></td><td>Trip detected at 1.500 A</td><td>0.000s</td></tr></tbody></table></section>
+<section class='card'><h2>Run metadata</h2><dl><dt>dut</dt><dd>PWR-5V Protected Buck Rev A</dd><dt>backend</dt><dd>sim</dd><dt>seed</dt><dd>7</dd><dt>fault_injection</dt><dd>none</dd><dt>host</dt><dd>386278Mss</dd><dt>python</dt><dd>3.13.3</dd><dt>generated_utc</dt><dd>2026-09-08T16:43:31+00:00</dd></dl></section>
+<footer>Raw measurements and machine-readable results are stored beside this report.</footer></main></body></html>
