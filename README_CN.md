@@ -21,9 +21,11 @@ python -m validation.cli run --backend real --config bench.json --output artifac
 ## 文件入口
 
 - `hardware/protected_buck.kicad_pro`：KiCad工程。
-- `hardware/protected_buck.sch`：旧格式概念原理图；转换后仍需完成ERC清理，不能直接用于生产。
-- `hardware/protected_buck.kicad_pcb`：器件布局、双面地平面和主功率路径。
+- `hardware/protected_buck.kicad_sch`：完整的KiCad 10原理图，ERC为0。
+- `hardware/protected_buck.kicad_pcb`：已完成布线的双层PCB，DRC和未连接均为0。
+- `hardware/protected_buck.dsn` / `.ses`：可复现的Specctra布线交换文件。
 - `hardware/protected_buck_3d.png`：PCB 3D预览。
+- `hardware/protected_buck_schematic.pdf`：原理图审查PDF。
 - `hardware/BOM.csv`：初步物料表。
 - `hardware/ROUTING_CHECKLIST_CN.md`：剩余PCB布线与审查事项。
 - `validation/`：仿真和实机测试程序。
@@ -31,4 +33,4 @@ python -m validation.cli run --backend real --config bench.json --output artifac
 
 ## 当前状态
 
-5个软件单元测试和6个模拟验证流程已通过。实机纹波由SCPI示波器采集，MCP3008只负责直流及低频测量。KiCad 10.0.6可以解析PCB，几何DRC违规为0；在分离RTN/GND并加入受保护DAQ网络后有49个未连接项目，因此当前版本不能直接下单打板。请按照PCB完成清单布线，再做到DRC违规0、未连接0，并完成人工审查。
+5个软件单元测试和6个模拟验证流程已通过。实机纹波由SCPI示波器采集，MCP3008只负责直流及低频测量。KiCad 10.0.6检查结果为：原理图ERC 0错误/0警告，PCB DRC 0违规/0未连接。当前版本仍不是量产或直接下单版本；打板前还需核对封装、散热过孔、环路稳定性、器件降额、安装孔/外壳尺寸，并完成原理图与PCB一致性和人工审查。

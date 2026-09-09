@@ -1,0 +1,26 @@
+name: constrained-pcb-autoroute
+
+on:
+  workflow_dispatch:
+
+jobs:
+  route:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "25"
+      - name: Download pinned Freerouting release
+        run: |
+          curl --fail --location --output freerouting.jar \
+            https://github.com/freerouting/freerouting/releases/download/v2.4.1/freerouting-2.4.1.jar
+          echo "251101c3eeac22d7e7dfcf6796603279e5d1000283eb82d8f093780f7afc6aa9  freerouting.jar" | sha256sum --check
+      - name: Route Specctra design
+        run: java -jar freerouting.jar -de hardware/protected_buck.dsn -do protected_buck.ses
+      - uses: actions/upload-artifact@v6
+        with:
+          name: protected-buck-specctra-session
+          path: protected_buck.ses

@@ -1,6 +1,6 @@
 # Schematic review notes
 
-This revision converts the most important observations from the KiCad review into explicit design constraints. The architecture image in `docs/images/schematic_overview.svg` is suitable for the README; the raw editor screenshot is intentionally not published because it shows an intermediate schematic with ambiguous connections.
+This revision converts the most important observations from the KiCad review into explicit design constraints. The README now includes both the clean architecture diagram and the exported KiCad schematic. The editable native schematic passes ERC with zero errors and zero warnings.
 
 ## Corrected constraints
 
@@ -14,4 +14,4 @@ This revision converts the most important observations from the KiCad review int
 
 ## Release gate
 
-The KiCad source remains an engineering prototype. Before fabrication, convert/rebuild the legacy schematic as `.kicad_sch`, clear ERC, finish every PCB connection, obtain zero DRC violations and zero unconnected items, verify land patterns, and complete an independent review.
+The KiCad source remains an engineering prototype. ERC, DRC, and connectivity gates are clean. Before fabrication, verify land patterns and exact ordered parts, complete schematic/PCB parity, review thermal and mechanical design, and obtain an independent engineering review.

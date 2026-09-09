@@ -106,7 +106,7 @@
         "min_v": 4.85,
         "max_v": 5.15
       },
-      "duration_s": 0.00010360009036958218
+      "duration_s": 0.00010790000669658184
     },
     {
       "name": "Load regulation",
@@ -206,7 +206,7 @@
         "min_v": 4.85,
         "max_v": 5.15
       },
-      "duration_s": 4.719989374279976e-05
+      "duration_s": 4.830001853406429e-05
     },
     {
       "name": "Output ripple",
@@ -16217,7 +16217,7 @@
       "limits": {
         "max_vpp": 0.05
       },
-      "duration_s": 0.003442800138145685
+      "duration_s": 0.003372600069269538
     },
     {
       "name": "UVLO rising",

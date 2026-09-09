@@ -12,7 +12,7 @@ import pcbnew
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "hardware" / "protected_buck.kicad_pcb"
+OUT = ROOT / "hardware" / "protected_buck_unrouted.kicad_pcb"
 FP_ROOT = Path(os.environ.get("KICAD10_FOOTPRINT_DIR", r"C:\Program Files\KiCad\10.0\share\kicad\footprints"))
 MM = pcbnew.FromMM
 
@@ -67,7 +67,7 @@ def capacitor(ref, value, x, y, n1, n2, size="C_0603_1608Metric", rotation=0):
 
 J1 = add_fp("TerminalBlock_Phoenix", "TerminalBlock_Phoenix_MKDS-1,5-2_1x02_P5.00mm_Horizontal", "J1", "VIN 8-18V", 27, 65, 90)
 assign(J1, {"1": "VIN", "2": "RTN"})
-D1 = add_fp("Diode_SMD", "D_SMB", "D1", "SMBJ24A", 36, 78, 90); assign(D1, {"1": "RTN", "2": "VIN"})
+D1 = add_fp("Diode_SMD", "D_SMB", "D1", "SMBJ24A", 36, 70, 90); assign(D1, {"1": "RTN", "2": "VIN"})
 C1 = capacitor("C1", "10uF 50V", 42, 75, "VIN", "RTN", "C_1210_3225Metric", 90)
 C2 = capacitor("C2", "10uF 50V", 46, 75, "VIN", "RTN", "C_1210_3225Metric", 90)
 C2.Reference().SetVisible(False)
@@ -78,18 +78,18 @@ R1 = resistor("R1", "52.3k 1%", 47, 88, "VIN", "UVLO")
 R2 = resistor("R2", "10k 1%", 52, 88, "UVLO", "RTN")
 R3 = resistor("R3", "150k 1%", 47, 92, "VIN", "OVP")
 R4 = resistor("R4", "10k 1%", 52, 92, "OVP", "RTN")
-R5 = resistor("R5", "8.06k 1%", 63, 87, "ILIM", "RTN")
-C5 = capacitor("C5", "22nF", 67, 87, "DVDT", "RTN")
+R5 = resistor("R5", "8.06k 1%", 65, 68.5, "ILIM", "RTN")
+C5 = capacitor("C5", "22nF", 65, 75.5, "DVDT", "RTN")
 # FLT is open-drain. R6 is only series protection; the fixture supplies a 3.3 V pull-up.
 R6 = resistor("R6", "1k", 68, 73, "FLT", "FLT_DAQ", 90)
 R7 = resistor("R7", "100k", 72, 73, "PROTECTED_IN", "SHDN", 90)
-R14 = resistor("R14", "0R", 59, 91, "MODE", "RTN")
-R15 = resistor("R15", "16.9k 1%", 63, 91, "IMON", "RTN")
+R14 = resistor("R14", "0R", 49, 70, "MODE", "RTN")
+R15 = resistor("R15", "16.9k 1%", 61, 79, "IMON", "RTN")
 R16 = resistor("R16", "100k", 69, 91, "IMON", "IMON_DAQ")
-C6 = capacitor("C6", "10uF 50V", 76, 77, "PROTECTED_IN", "GND", "C_1210_3225Metric", 90)
+C6 = capacitor("C6", "10uF 50V", 76, 68.5, "PROTECTED_IN", "GND", "C_1210_3225Metric", 90)
 U2 = add_fp("Package_SO", "TI_SO-PowerPAD-8", "U2", "TPS5431DDA", 86, 65)
 assign(U2, {"1":"BOOT", "4":"VSENSE", "5":"PROTECTED_IN", "6":"GND", "7":"PROTECTED_IN", "8":"SW", "9":"GND"})
-C7 = capacitor("C7", "10nF BOOT", 91, 57, "BOOT", "SW")
+C7 = capacitor("C7", "10nF BOOT", 91, 60, "BOOT", "SW")
 D2 = add_fp("Diode_SMD", "D_SMA", "D2", "B340A", 95, 76, 90); assign(D2, {"1":"GND", "2":"SW"})
 L1 = add_fp("Inductor_SMD", "L_10.4x10.4_H4.8", "L1", "15uH 4A", 103, 65); assign(L1, {"1":"SW", "2":"+5V"})
 C8 = capacitor("C8", "47uF 10V", 115, 76, "+5V", "GND", "C_1210_3225Metric", 90)
@@ -139,8 +139,9 @@ for a, b in [((20,40),(140,40)),((140,40),(140,110)),((140,110),(20,110)),((20,1
     edge = pcbnew.PCB_SHAPE(board); edge.SetShape(pcbnew.SHAPE_T_SEGMENT); edge.SetLayer(pcbnew.Edge_Cuts)
     edge.SetStart(vec(*a)); edge.SetEnd(vec(*b)); edge.SetWidth(MM(0.25)); board.Add(edge)
 
-# Ground plane, filled during generation.
-for layer in (pcbnew.F_Cu, pcbnew.B_Cu):
+# Continuous bottom ground plane; top copper remains available for the compact
+# power loops and local ground pours added during final layout review.
+for layer in (pcbnew.B_Cu,):
     zone = pcbnew.ZONE(board); zone.SetLayer(layer); zone.SetNet(nets["GND"]); zone.SetLocalClearance(MM(0.3))
     outline = zone.Outline(); outline.NewOutline()
     for p in [(20.5,40.5),(139.5,40.5),(139.5,109.5),(20.5,109.5)]: outline.Append(*vec(*p))

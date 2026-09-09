@@ -1,19 +1,19 @@
-# PCB Completion Checklist
+# PCB Post-routing Review Checklist
 
-The Rev-A board includes the major footprints, named nets, a system-ground plane, the critical power path, test points, and the DAQ connector. The latest generated DRC report is the source of truth for geometric violations and unconnected items.
+The board now includes all footprints, named nets, a bottom ground plane, completed routing, test points, and the DAQ connector. KiCad 10.0.6 reports zero DRC violations and zero unconnected pads. The items below are engineering release gates, not missing ratsnest connections.
 
-## Complete in KiCad
+## Review in KiCad before fabrication
 
 1. Minimize the U2–D2–L1–C8/C9 switching-current loops.
-2. Route BOOT, VSENSE, UVLO, OVP, ILIM, DVDT, FLT_DAQ, SHDN, MODE, and IMON_DAQ.
-3. Kelvin-connect the R8/R9 feedback divider at the output capacitor rather than the inductor pad.
-4. Route both ADC dividers and J3; confirm no J3 signal can exceed the Raspberry Pi 3.3 V input range.
-5. Keep TPS26600 RTN isolated from system GND, add the correct thermal connections beneath both exposed pads, and check the manufacturer's minimum drill size.
-6. Add four M3 mounting holes and verify connector orientation against the enclosure.
-7. Refill copper and achieve both zero DRC violations and zero unconnected items.
-8. Update the PCB from the converted schematic and run schematic/PCB parity checks.
-9. Have another engineer review polarity, ratings, mode pins, protection behavior, and test-point access.
+2. Confirm the R8/R9 Kelvin feedback path samples at the output capacitors and stays away from SW.
+3. Confirm both ADC dividers, J3 pin order, and the 3.3 V maximum at every Raspberry Pi-facing signal.
+4. Verify that TPS26600 RTN remains isolated from system GND through the intended device path.
+5. Design and review the exposed-pad thermal-via arrays; check annular ring and drill limits with the selected manufacturer.
+6. Add four M3 mounting holes and verify connector orientation and keep-outs against the enclosure.
+7. Refill copper, rerun DRC, and preserve zero violations and zero unconnected items after every change.
+8. Run schematic/PCB parity and inspect every autorouted neck-down, via, return path, and high-current segment manually.
+9. Have another engineer review polarity, ratings, mode pins, protection behavior, creepage, and test-point access.
 
-## Why this revision must not be fabricated yet
+## Why this is not yet a fabrication release
 
-The critical power path is only a layout starting point and the low-current nets remain in the ratsnest. TPS26600 mode configuration, TPS5431 compensation/bootstrap details, thermal-via design, and final component derating must also be checked against the exact ordered parts.
+Connectivity and automated rule checks are complete. TPS26600 configuration, TPS5431 compensation/bootstrap details, thermal-via design, land patterns, enclosure constraints, and final component derating still require review against the exact ordered parts.

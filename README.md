@@ -4,21 +4,27 @@
 ![KiCad](https://img.shields.io/badge/KiCad-10.0-314CB0?logo=kicad&logoColor=white)
 ![Tests](https://img.shields.io/badge/unit_tests-5%2F5_passing-16803C)
 ![Validation](https://img.shields.io/badge/simulated_validation-6%2F6_passing-16803C)
-![Hardware](https://img.shields.io/badge/hardware-rev_A_in_progress-E2A000)
+![Hardware](https://img.shields.io/badge/hardware-routed_review-E2A000)
 
 A portfolio project combining a protected 5 V buck-converter PCB with a Python automated validation bench. It demonstrates PCB design, instrument automation, fault injection, safety interlocks, data logging, and CI-style reporting—the day-to-day concerns of hardware validation and systems-integration engineering.
 
-> **Engineering status:** the software framework is operational. The Rev-A PCB is a design in progress, not a fabrication release. KiCad reports zero geometric DRC violations, but 49 low-current connections still require interactive routing and schematic parity review. The higher count reflects the newly separated RTN/GND and protected DAQ networks.
+> **Engineering status:** the software framework is operational. The KiCad 10 schematic passes ERC with zero violations, and the routed PCB passes DRC with zero violations and zero unconnected pads. This is still an engineering prototype, not a fabrication release: land patterns, thermal-via design, compensation, derating, enclosure constraints, and schematic/PCB parity need independent review.
 
 ## PCB preview
 
 ![Rev-A protected buck PCB 3D render](hardware/protected_buck_3d.png)
 
+## KiCad schematic
+
+![Protected 5 V buck KiCad schematic](docs/images/protected_buck_schematic.svg)
+
+The editable source is `hardware/protected_buck.kicad_sch`; its generated PDF is included for design review. KiCad 10.0.6 reports zero ERC errors and zero ERC warnings, and the automated parity check matches all 88 schematic pins to 88 PCB pads.
+
 ## Electrical architecture
 
 ![Protected 5 V buck schematic overview](docs/images/schematic_overview.svg)
 
-This review overview explicitly separates the TPS26600 `RTN` domain from `SYSTEM_GND`, shows the required 10 nF BOOT-to-PH capacitor, and identifies the protected DAQ signals. The legacy editable schematic is still a concept artifact and must pass conversion and ERC before it can become the source of truth.
+This review overview explicitly separates the TPS26600 `RTN` domain from `SYSTEM_GND`, shows the required 10 nF BOOT-to-PH capacitor, and identifies the protected DAQ signals.
 
 The DUT uses a TPS26600 eFuse front end and a TPS5431 asynchronous buck stage. It targets 8–18 V input, regulated 5 V output, and a 1 A continuous validation load. The fixture connector exposes divided VIN/VOUT measurements, active-low fault status, shutdown control, and current-monitor signals.
 
@@ -79,10 +85,12 @@ This produces a failing 91.3 mVpp result and a nonzero process exit code suitabl
 ```text
 hardware/
   protected_buck.kicad_pro      KiCad project
-  protected_buck.sch            legacy concept schematic; ERC cleanup pending
-  protected_buck.kicad_pcb      Rev-A placement and critical power routing
+  protected_buck.kicad_sch      complete editable schematic; ERC clean
+  protected_buck.kicad_pcb      routed two-layer PCB; DRC clean
+  protected_buck.dsn/.ses       reproducible Specctra routing exchange
   protected_buck_3d.png         generated 3D preview
-  protected_buck_layout.pdf     top-layer preview
+  protected_buck_layout.pdf     copper-layer review PDF
+  protected_buck_schematic.pdf  schematic review PDF
   BOM.csv                       preliminary bill of materials
   DESIGN.md                     calculations and layout rationale
   BRINGUP.md                    controlled first-power procedure
@@ -94,6 +102,9 @@ validation/
   report.py                     CSV, JSON, and HTML reporting
 tests/                          software unit tests
 scripts/generate_board.py       reproducible KiCad PCB generator
+scripts/finalize_route.py       imports routing session and finalizes reviewed nets
+scripts/generate_schematic_modern.py  reproducible KiCad 10 schematic generator
+scripts/check_design_parity.py  checks every schematic pin against its PCB pad net
 .github/workflows/              simulated validation workflow
 ```
 
@@ -138,14 +149,14 @@ The real-bench factory rejects configurations above the 2 A project safety ceili
 | OVP rising threshold | 19.0 V ±0.6 V |
 | Current-limit trip | 1.50 A ±0.15 A |
 
-See [DESIGN.md](hardware/DESIGN.md) for calculations, [VALIDATION_STATUS.md](hardware/VALIDATION_STATUS.md) for the exact engineering status, and [ROUTING_CHECKLIST.md](hardware/ROUTING_CHECKLIST.md) for remaining PCB work.
+See [DESIGN.md](hardware/DESIGN.md) for calculations, [VALIDATION_STATUS.md](hardware/VALIDATION_STATUS.md) for the exact engineering status, and [ROUTING_CHECKLIST.md](hardware/ROUTING_CHECKLIST.md) for the post-routing review gates.
 
 ## Before fabrication
 
-- Convert and clean the schematic in KiCad 10, then pass ERC.
-- Route every remaining net and achieve zero DRC violations and zero unconnected items.
 - Verify exposed-pad thermal-via patterns with the PCB manufacturer.
 - Recheck compensation, bootstrap, current-limit mode, component derating, and fault behavior against the ordered part numbers.
-- Run schematic/PCB parity checks and complete an independent engineering review.
+- Add and mechanically validate mounting holes and enclosure clearances.
+- Run schematic/PCB parity checks, inspect the autorouted geometry manually, and complete an independent engineering review.
+- Assemble one prototype and complete the controlled bring-up and physical validation plan.
 
 This repository is an engineering portfolio artifact and learning platform. It is not a certified power product or production manufacturing release.
